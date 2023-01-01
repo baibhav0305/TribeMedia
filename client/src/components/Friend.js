@@ -43,6 +43,8 @@ const Friends = styled.p`
   color: #666666;
 `;
 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
 const Friend = ({ friend }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,7 +55,7 @@ const Friend = ({ friend }) => {
 
   const handleRemoveFriends = async () => {
     const response = await axios.patch(
-      `http://localhost:5050/user/${friend._id}`,
+      `${BASE_URL}/user/${friend._id}`,
       { currentUserId },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -64,7 +66,7 @@ const Friend = ({ friend }) => {
   return (
     <Wrapper>
       <Row>
-        <Image src="/assets/bp.jpg" alt="profile pic" />
+        <Image src={friend.picturePath} alt="profile pic" />
         <Details
           onClick={() => {
             navigate(`/profile/${friend._id}`);

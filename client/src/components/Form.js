@@ -73,6 +73,9 @@ const Button = styled.button`
   }
 `;
 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+const CLOUDINARY_URL = process.env.REACT_APP_CLOUDINARY_URL;
+
 const Form = () => {
   const [page, setPage] = useState("register");
   const dispatch = useDispatch();
@@ -102,14 +105,11 @@ const Form = () => {
       formData.append("file", picture);
       formData.append("upload_preset", "socialMediaTribe");
 
-      const dataRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/dl3picjlx/image/upload",
-        formData
-      );
+      const dataRes = await axios.post(CLOUDINARY_URL, formData);
 
       imageUrl = dataRes.data.url;
     }
-    const savedUser = await axios.post("http://localhost:5050/auth/register", {
+    const savedUser = await axios.post(`${BASE_URL}/auth/register`, {
       firstName,
       lastName,
       email,
@@ -126,7 +126,7 @@ const Form = () => {
   };
 
   const login = async ({ email, password }) => {
-    const loginUser = await axios.post("http://localhost:5050/auth/login", {
+    const loginUser = await axios.post(`${BASE_URL}/auth/login`, {
       email,
       password,
     });

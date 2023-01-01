@@ -9,6 +9,8 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
 const ViewFeed = ({ user, isProfile }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
@@ -19,7 +21,7 @@ const ViewFeed = ({ user, isProfile }) => {
 
   const getUserPosts = async () => {
     const response = await axios.get(
-      `http://localhost:5050/post/${user._id}/posts?page=${page}`,
+      `${BASE_URL}/post/${user._id}/posts?page=${page}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -30,12 +32,9 @@ const ViewFeed = ({ user, isProfile }) => {
   };
 
   const getPosts = async () => {
-    const response = await axios.get(
-      `http://localhost:5050/post?page=${page}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    const response = await axios.get(`${BASE_URL}/post?page=${page}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     setResults([...results, ...response.data]);
     dispatch(handlePosts({ posts: results }));

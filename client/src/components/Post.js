@@ -122,6 +122,8 @@ const Share = styled.div`
   }
 `;
 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
 const Post = ({ post }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
@@ -133,7 +135,7 @@ const Post = ({ post }) => {
 
   const handleUpdateLikes = async () => {
     const response = await axios.patch(
-      `http://localhost:5050/post/${post._id}/like`,
+      `${BASE_URL}/post/${post._id}/like`,
       { currentUserId },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -143,7 +145,7 @@ const Post = ({ post }) => {
 
   const handleAddFriends = async () => {
     const response = await axios.patch(
-      `http://localhost:5050/user/${post.userId}`,
+      `${BASE_URL}/user/${post.userId}`,
       { currentUserId },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -155,12 +157,9 @@ const Post = ({ post }) => {
     const confirmDelete = window.confirm("Do you want to delete this post?");
 
     if (confirmDelete) {
-      const response = await axios.delete(
-        `http://localhost:5050/post/${post._id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await axios.delete(`${BASE_URL}/post/${post._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       dispatch(handlePosts({ posts: response.data }));
     } else {
@@ -173,7 +172,7 @@ const Post = ({ post }) => {
       {/* first */}
       <First>
         <UserDetails>
-          <Image src={"/assets/BP.jpg"} alt="profile pic" />
+          <Image src={post.userPicturePath} alt="profile pic" />
           <Details>
             <Name>{`${post.firstName} ${post.lastName}`}</Name>
             <Friends>{post.location}</Friends>

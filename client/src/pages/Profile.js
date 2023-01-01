@@ -22,6 +22,8 @@ const Feed = styled.div`
   gap: 15px;
 `;
 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
 const Profile = () => {
   const token = useSelector((state) => state.token);
   const currentUser = useSelector((state) => state.user);
@@ -29,7 +31,7 @@ const Profile = () => {
   const [user, setUser] = useState(null);
 
   const getUser = async () => {
-    const response = await axios.get(`http://localhost:5050/user/${userId}`, {
+    const response = await axios.get(`${BASE_URL}/user/${userId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 

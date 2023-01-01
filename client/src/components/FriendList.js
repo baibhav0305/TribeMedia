@@ -36,16 +36,17 @@ const List = styled.div`
   gap: 1rem;
 `;
 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
 const FriendList = ({ user }) => {
   const dispatch = useDispatch();
   const friends = useSelector((state) => state.user.friends);
   const token = useSelector((state) => state.token);
 
   const getUserFriends = async () => {
-    const response = await axios.get(
-      `http://localhost:5050/user/${user._id}/friends`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const response = await axios.get(`${BASE_URL}/user/${user._id}/friends`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     dispatch(handleFriends({ friends: response.data }));
   };

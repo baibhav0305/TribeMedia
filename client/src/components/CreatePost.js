@@ -78,6 +78,9 @@ const Button = styled.button`
   }
 `;
 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+const CLOUDINARY_URL = process.env.REACT_APP_CLOUDINARY_URL;
+
 const CreatePost = () => {
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
@@ -99,15 +102,12 @@ const CreatePost = () => {
       formData.append("file", image);
       formData.append("upload_preset", "socialMediaTribe");
 
-      const dataRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/dl3picjlx/image/upload",
-        formData
-      );
+      const dataRes = await axios.post(CLOUDINARY_URL, formData);
       imageUrl = dataRes.data.url;
     }
 
     const response = await axios.post(
-      "http://localhost:5050/post",
+      `${BASE_URL}/post`,
       { _id, post, imageUrl },
       {
         headers: { Authorization: `Bearer ${token}` },
