@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FaUserMinus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { handleFriends } from "state";
 
@@ -67,16 +67,18 @@ const Friend = ({ friend }) => {
     <Wrapper>
       <Row>
         <Image src={friend.picturePath} alt="profile pic" />
-        <Details
-          onClick={() => {
-            navigate(`/profile/${friend._id}`);
-            navigate(0);
-          }}
-          style={{ cursor: "pointer" }}
-        >
-          <Name>{`${friend.firstName} ${friend.lastName}`}</Name>
-          <Friends>{friend.occupation}</Friends>
-        </Details>
+        <Link style={{ textDecoration: "none" }} to={`/profile/${friend._id}`}>
+          <Details
+            // onClick={() => {
+            //   navigate(`/profile/${friend._id}`);
+            //   navigate(0);
+            // }}
+            style={{ cursor: "pointer" }}
+          >
+            <Name>{`${friend.firstName} ${friend.lastName}`}</Name>
+            <Friends>{friend.occupation}</Friends>
+          </Details>
+        </Link>
       </Row>
       <FaUserMinus cursor="pointer" color="red" onClick={handleRemoveFriends} />
       {/* {isFriend && (
